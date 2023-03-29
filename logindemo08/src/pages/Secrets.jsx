@@ -1,17 +1,22 @@
 import axios from "axios";
-import { useLoaderData,Form, useActionData } from "react-router-dom";
+import { useLoaderData,Form, useActionData, json } from "react-router-dom";
 import * as z from "zod"
 import { createErrorObject } from "../helpers/errorhandling";
 import Cookies from "js-cookie";
 
 export const Secretsloader = (user) => async () => {
-    console.log(user)
-    let response = await axios("http://localhost:4000/secrets", {
+
+    try {
+         let response = await axios("http://localhost:4000/secrets", {
         headers: {
             Authorization: `Bearer ${user.accessToken}`
         }
     });
-     return await response.data;
+     return await response.data;  
+    } catch (error) {
+       throw json({from: {pathname:"/secrets"}},{status:401})
+    }
+ 
    };
    export const action = (user) => async ({request}) => {
     let formData = await request.formData()

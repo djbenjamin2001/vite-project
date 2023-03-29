@@ -5,14 +5,19 @@ import * as z from "zod"
 
 import {toast} from "react-toastify"
 export const profileLoader= (user) => async() => {
-  let response = await axios.get("http://localhost:4000/users/" + user.id,
+  try {
+    let response = await axios.get("http://localhost:4000/users/" + user.id,
   {
     headers:{
         Authorization:`Bearer ${user.accessToken}`,
 }
 })
   console.log(response)
-  return response.data
+  return response.data 
+  } catch (error) {
+    throw new Response("no user",{status:401})
+  }
+ 
 }
 
 export const profileAction = (user) => async ({request}) =>{

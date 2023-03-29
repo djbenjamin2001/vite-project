@@ -16,6 +16,7 @@ import {
     const auth = useAuth(); // {user, logInUser, logOutUser}
     const navigate = useNavigate();
   const location = useLocation()
+ 
   const from = location.state?.from?.pathname || "/"
     let schema = z
       .object({
@@ -42,7 +43,7 @@ import {
           password: validated.data.password,
         });
  
-         auth.logInUser(response.data, () => navigate(from));
+         auth.logInUser(response.data, () => navigate("/"));
          } catch (error) {
          setErrors({status:error.response.data})
          }
